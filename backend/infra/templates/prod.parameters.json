@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "swaName": {
+            "value": "swa-cloud-resume-challenge"
+        },
+        "swaRepoUrl": {
+            "value": "https://github.com/ganznz/cloud-resume-challenge-azure"
+        },
+        "swaBranch": {
+            "value": "main"
+        },
+        "swaSkuName": {
+            "value": "Free"
+        },
+        "swaSkuTier": {
+            "value": "Free"
+        },
+        "swaAppLocation": {
+            "value": "frontend"
+        },
+        "swaApiLocation": {
+            "value": "backend/api"
+        },
+        "swaOutputLocation": {
+            "value": "build/client"
+        },
+        "swaRepoToken": {
+            "value": ""
+        },
+        "swaEnterpriseGradeCdnStatus": {
+            "value": "disabled"
+        }
+    }
+}

@@ -1,0 +1,100 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "swaName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the Static Web App."
+            }
+        },
+        "swaRepoUrl": {
+            "type": "string",
+            "metadata": {
+                "description": "URL of the GitHub repo (e.g. https://github.com/username/repo)."
+            }
+        },
+        "swaBranch": {
+            "type": "string",
+            "defaultValue": "main",
+            "metadata": {
+                "description": "Target branch in the GitHub repo (e.g. main)."
+            }
+        },
+        "swaSkuName": {
+            "type": "string",
+            "defaultValue": "Free",
+            "metadata": {
+                "description": "Name of the resource SKU."
+            }
+        },
+        "swaSkuTier": {
+            "type": "string",
+            "defaultValue": "Free",
+            "metadata": {
+                "description": "Tier of the resource SKU."
+            }
+        },
+        "swaAppLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "The absolute path to the app code within the repo."
+            }
+        },
+        "swaApiLocation": {
+            "type": "string",
+            "defaultValue": "/",
+            "metadata": {
+                "description": "The absolute path to the Azure Functions code within the repo."
+            }
+        },
+        "swaOutputLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "The path of the build folder relative to the app folder within the repo."
+            }
+        },
+        "swaRepoToken": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Your GitHub repo token. Used to setup the Github Actions workflow file and API secrets."
+            }
+        },
+        "swaEnterpriseGradeCdnStatus": {
+            "type": "string",
+            "defaultValue": "disabled",
+            "metadata": {
+                "description": "State indicating the status of the enterprise grade CDN serving traffic to the static web app."
+            }
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Web/staticSites",
+            "apiVersion": "2022-09-01",
+            "name": "[parameters('swaName')]",
+            "location": "[resourceGroup().location]",
+            "tags": {},
+            "sku": {
+                "Tier": "[parameters('swaSkuTier')]",
+                "Name": "[parameters('swaSkuName')]"
+            },
+            "properties": {
+                "deploymentAuthPolicy": "GitHub",
+                "repositoryUrl": "[parameters('swaRepoUrl')]",
+                "branch": "[parameters('swaBranch')]",
+                "repositoryToken": "[parameters('swaRepoToken')]",
+                "buildProperties": {
+                    "appLocation": "[parameters('swaAppLocation')]",
+                    "apiLocation": "[parameters('swaApiLocation')]",
+                    "outputLocation": "[parameters('swaOutputLocation')]"
+                },
+                "enterpriseGradeCdnStatus": "[parameters('swaEnterpriseGradeCdnStatus')]"
+            }
+        }
+    ],
+    "outputs": {}
+}
